@@ -1,0 +1,21 @@
+package-as: TimelessForever
+
+move-folders:
+  TimelessForever_Barber: TimelessForever_Barber
+  TimelessForever_Bookmarks: TimelessForever_Bookmarks
+  TimelessForever_Buffs: TimelessForever_Buffs
+  TimelessForever_Disenchant: TimelessForever_Disenchant
+  TimelessForever_Emotes: TimelessForever_Emotes
+  TimelessForever_Fishing: TimelessForever_Fishing
+  TimelessForever_Heal: TimelessForever_Heal
+  TimelessForever_Minimap: TimelessForever_Minimap
+  TimelessForever_MinimapBag: TimelessForever_MinimapBag
+  TimelessForever_Move: TimelessForever_Move
+  TimelessForever_nightlight: TimelessForever_nightlight
+  TimelessForever_Tweaks: TimelessForever_Tweaks
+
+ignore:
+  - .git
+  - .gitignore
+  - .pkgmeta
+  - README.md

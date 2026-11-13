@@ -4,6 +4,7 @@
 # Whitelist .gitignore and README
 !.gitignore
 !README.md
+!.pkgmeta
 
 # Whitelist only the specified TimelessForever addons
 !TimelessForever/
