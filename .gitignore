@@ -18,8 +18,10 @@
 !TimelessForever_MinimapBag/
 !TimelessForever_Move/
 !TimelessForever_nightlight/
-!TimelessForever_nightlight_Debug/
 !TimelessForever_Tweaks/
+
+# Permanently Banned from Git & Uploads
+TimelessForever_nightlight_Debug/
 
 # Temporary / sensitive files inside allowed directories
 *.py[cod]
