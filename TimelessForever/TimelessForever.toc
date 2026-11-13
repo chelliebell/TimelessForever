@@ -2,7 +2,7 @@
 ## Title: |cff0cd29fTimelessForever|r
 ## Notes: World of Warcraft TimelessForever Addon Suite by GameHiveHQ.
 ## Author: TimelessForever Dev Chelliebellie
-## Version: 1.0.0
+## Version: 1.4.0
 ## Category: GameHiveHQ
 ## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
 ## AddonCompartmentFunc: TimelessForever_OnAddonCompartmentClick

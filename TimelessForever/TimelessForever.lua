@@ -1006,6 +1006,13 @@ local function RegisterGeneralTab()
             order = 38.6,
             func = function() TimelessForeverSuite:OpenSettings("buffs") end,
         },
+        openBarBtn = {
+            name = "Button Bar",
+            desc = "Unified floating action bar grouping Nightlight, Disenchant, and Fishing buttons.",
+            type = "execute",
+            order = 38.5,
+            func = function() TimelessForeverSuite:OpenSettings("bar") end,
+        },
         openFallSaverBtn = {
             name = "Fall Saver (Smart Fall Detector)",
             desc = "Auto-detects your class/race fall ability (Walk on Air, Slow Fall, Levitate, Bubble, Cat Form, etc.) and triggers only when truly falling—never on a normal jump.",
@@ -1030,7 +1037,7 @@ local function RegisterGeneralTab()
                    "|cffffd100/timelessforever macro|r - Create or update the in-game macro\n" ..
                    "|cffffd100/timelessforever icon|r - Toggle minimap icon\n" ..
                    "|cffffd100/timelessforever reset|r - Reset minimap icon position\n" ..
-                   "|cffffd100/timelessforever move|r / |cffffd100heal|r / |cffffd100translate|r / |cffffd100tweaks|r / |cffffd100minimap|r / |cffffd100bag|r / |cffffd100fishing|r / |cffffd100nightlight|r / |cffffd100emotes|r / |cffffd100buffs|r / |cffffd100about|r - Jump directly to module tab",
+                   "|cffffd100/timelessforever move|r / |cffffd100heal|r / |cffffd100translate|r / |cffffd100tweaks|r / |cffffd100minimap|r / |cffffd100bag|r / |cffffd100fishing|r / |cffffd100nightlight|r / |cffffd100emotes|r / |cffffd100buffs|r / |cffffd100bar|r / |cffffd100fallsaver|r / |cffffd100about|r - Jump directly to module tab",
             type = "description",
             order = 41,
         },
@@ -1066,6 +1073,24 @@ local function HandleTimelessSlash(msg)
         TimelessForeverSuite:OpenSettings("emotes")
     elseif cmd == "buffs" or cmd == "buff" or cmd == "buffwheel" or cmd == "bw" or cmd == "tbuffs" then
         TimelessForeverSuite:OpenSettings("buffs")
+    elseif cmd == "bar" or cmd == "buttonbar" or cmd == "tfbar" or cmd == "toolbar" then
+        TimelessForeverSuite:OpenSettings("bar")
+    elseif cmd == "disenchant" or cmd == "de" or cmd == "tfde" then
+        if _G.TimelessDisenchant and _G.TimelessDisenchant.ToggleUI then
+            _G.TimelessDisenchant:ToggleUI()
+        elseif SlashCmdList and SlashCmdList["TIMELESSFOREVER_DISENCHANT"] then
+            SlashCmdList["TIMELESSFOREVER_DISENCHANT"]("")
+        else
+            TimelessForeverSuite:OpenSettings("bar")
+        end
+    elseif cmd == "scrolls" or cmd == "sp" or cmd == "scrollspicker" then
+        if _G.ScrollsPicker and _G.ScrollsPicker.ToggleUI then
+            _G.ScrollsPicker.ToggleUI()
+        elseif SlashCmdList and SlashCmdList["SCROLLSPICKER"] then
+            SlashCmdList["SCROLLSPICKER"]("")
+        else
+            TimelessForeverSuite:OpenSettings("buffs")
+        end
     elseif cmd == "fall" or cmd == "fallsaver" or cmd == "glide" then
         TimelessForeverSuite:OpenSettings("fallsaver")
     elseif cmd == "about" or cmd == "changelog" or cmd == "info" or cmd == "ver" or cmd == "version" then
@@ -1089,10 +1114,13 @@ local function HandleTimelessSlash(msg)
     elseif cmd == "help" then
         DEFAULT_CHAT_FRAME:AddMessage(ICON .. BRAND_TITLE .. " Commands:")
         DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever|r - Open settings hub")
+        DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever bar|r - Open Button Bar settings")
+        DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever buffs|r - Open Buffs & Scrolls settings")
+        DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever move|r - Open Frame Unlocker settings")
         DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever macro|r - Create or update in-game macro")
         DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever icon|r - Toggle minimap icon")
         DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever reset|r - Reset minimap icon position")
-        DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever move|r, |cffffd100heal|r, |cffffd100translate|r, |cffffd100tweaks|r, |cffffd100minimap|r, |cffffd100bag|r, |cffffd100fishing|r, |cffffd100nightlight|r, |cffffd100about|r")
+        DEFAULT_CHAT_FRAME:AddMessage("  |cffffd100/timelessforever move|r, |cffffd100heal|r, |cffffd100tweaks|r, |cffffd100minimap|r, |cffffd100bag|r, |cffffd100fishing|r, |cffffd100nightlight|r, |cffffd100emotes|r, |cffffd100about|r")
     else
         TimelessForeverSuite:OpenSettings()
     end
@@ -1108,97 +1136,187 @@ if not SlashCmdList["TIMELESSFOREVER"] then
 end
 
 -- =========================================================================
--- About & Changelog Tab
+-- About & Suite Status Hub
 -- =========================================================================
 
 local SUITE_MODULES = {
+    -- Core & Utilities
     {
         id = "TimelessForever",
         title = "TimelessForever (Core Hub)",
+        category = "Core & Utilities",
         icon = "Interface\\AddOns\\TimelessForever\\Icons\\gamehivehq",
         desc = "Central settings hub, minimap launcher button, and automatic action bar macro builder.",
         command = "/timelessforever",
+        tabKey = "general",
     },
     {
-        id = "TimelessForever_nightlight",
-        title = "Nightlight (Mouse Lantern)",
-        icon = "Interface\\Icons\\INV_Misc_Lantern_01",
-        desc = "Atmospheric lantern & flashlight around your mouse cursor with darkness cutout, smooth bloom, torch flicker, and 8 color presets.",
-        command = "/nightlight",
+        id = "TimelessForever_Bar",
+        title = "Timeless Button Bar",
+        category = "Core & Utilities",
+        icon = "Interface\\Icons\\INV_Misc_Gear_01",
+        desc = "Unified floating action bar grouping Nightlight, Disenchant, and Fishing buttons.",
+        command = "/tfbar",
+        tabKey = "bar",
+    },
+    {
+        id = "ScrollsPicker",
+        title = "ScrollsPicker (Stat Scrolls)",
+        category = "Core & Utilities",
+        icon = "Interface\\Icons\\INV_Scroll_02",
+        desc = "Scans bags for Classic Stat Scrolls (Agility, Strength, Stamina, Intellect, Spirit, Protection I–IV), auto-pops up when buff expires, 1-click use.",
+        command = "/sp",
+        tabKey = "buffs",
+    },
+    {
+        id = "TimelessForever_Disenchant",
+        title = "Disenchant (1-Click Fast DE)",
+        category = "Core & Utilities",
+        icon = "Interface\\Icons\\INV_Enchant_Disenchant",
+        desc = "Right-click gear in bags to disenchant instantly without equipping, plus mailbox mode and auto-loot.",
+        command = "/tfde",
+        tabKey = "bar",
     },
     {
         id = "TimelessForever_Fishing",
         title = "Fishing Helper",
+        category = "Core & Utilities",
         icon = "Interface\\Icons\\Trade_Fishing",
-        desc = "1-click and double-click fishing, automatic fishing rod detection, weapon swapping back upon combat/move, and click-anywhere to reel in.",
+        desc = "1-click and double-click fishing, automatic rod detection, combat weapon restore, and click-anywhere to reel in.",
         command = "/timelessforever fishing",
+        tabKey = "fishing",
+    },
+    -- Interface & Frame Movement
+    {
+        id = "TimelessForever_Move",
+        title = "Move (Frame Unlocker)",
+        category = "Interface & Frame Movement",
+        icon = "Interface\\Icons\\INV_Gizmo_02",
+        desc = "Drag, scale, and save positions of default Blizzard UI frames and MacroAssistForever with zero taint.",
+        command = "/timelessmove",
+        tabKey = "move",
     },
     {
         id = "TimelessForever_Minimap",
         title = "Minimap Overhaul",
+        category = "Interface & Frame Movement",
         icon = "Interface\\Icons\\INV_Misc_Map_01",
-        desc = "Sleek square minimap, clean custom borders, real-time player & cursor coordinates, zone header, and button tray docking.",
+        desc = "Sleek square minimap, clean custom borders, real-time player & cursor coordinates, zone header, and tray docking.",
         command = "/timelessforever minimap",
+        tabKey = "minimap",
     },
     {
         id = "TimelessForever_MinimapBag",
         title = "Addon Tray (Button Collector)",
+        category = "Interface & Frame Movement",
         icon = "Interface\\Icons\\INV_Misc_Bag_08",
         desc = "Gathers messy minimap addon buttons into a neat pop-out tray with square and circle orbit docking.",
         command = "/timelessforever bag",
+        tabKey = "bag",
     },
     {
-        id = "TimelessForever_AITranslate",
-        title = "AI Translate",
-        icon = "Interface\\Icons\\Spell_Holy_BorrowedTime",
-        desc = "Real-time in-game chat translation for party, raid, whisper, and world chat with learning dictionary support.",
-        command = "/timelessforever translate",
+        id = "TimelessForever_Barber",
+        title = "Barber (Barber Shop Fix)",
+        category = "Interface & Frame Movement",
+        icon = "Interface\\Icons\\INV_Misc_Scissors_01",
+        desc = "Full Barber Shop UI fix, screen auto-centering, interface scaling, and camera rotation control.",
+        command = "/timelessbarber",
     },
     {
-        id = "TimelessForever_Tweaks",
-        title = "Tweaks & Graphics",
-        icon = "Interface\\Icons\\INV_Misc_Gear_01",
-        desc = "Graphics engine and CVars optimizer, 2.6x max camera distance, nameplate distance slider, and performance presets.",
-        command = "/timelessforever tweaks",
-    },
-    {
-        id = "TimelessForever_Move",
-        title = "Move (Frame Unlocker)",
-        icon = "Interface\\Icons\\INV_Gizmo_02",
-        desc = "Drag, scale, and save positions of default Blizzard UI frames, quest log, bags, and spellbooks without Lua errors or taint.",
-        command = "/timelessforever move",
+        id = "TimelessForever_Bookmarks",
+        title = "Bookmarks (Map Bookmarks)",
+        category = "Interface & Frame Movement",
+        icon = "Interface\\Icons\\Spell_Arcane_PortalIronforge",
+        desc = "Right-click anywhere on the map to place custom markers with icons, notes, waypoints, and minimap tracking.",
+        command = "/tfbm",
     },
     {
         id = "TimelessForever_Heal",
         title = "Heal (Mouseover Frames)",
+        category = "Interface & Frame Movement",
         icon = "Interface\\Icons\\Spell_Holy_FlashHeal",
         desc = "Ultra-responsive, lightweight mouseover healing unit frames for 5-man dungeons and 40-man raids.",
         command = "/timelessforever heal",
+        tabKey = "heal",
+    },
+    -- Immersion & Atmosphere
+    {
+        id = "TimelessForever_nightlight",
+        title = "Nightlight (Mouse Torch)",
+        category = "Immersion & Atmosphere",
+        icon = "Interface\\Icons\\INV_Misc_Lantern_01",
+        desc = "Atmospheric lantern & torchlight around cursor with darkness cutout, smooth bloom, torch flicker, and 4 progression tiers.",
+        command = "/nightlight",
+        tabKey = "nightlight",
+    },
+    {
+        id = "TimelessForever_FallSaver",
+        title = "Fall Saver (Auto-Glide Engine)",
+        category = "Immersion & Atmosphere",
+        icon = "Interface\\Icons\\Ability_Hunter_Pet_Eagle",
+        desc = "Smart fall detector distinguishing normal jumping (~0.83s) from real falls, triggering racial/class float abilities before impact.",
+        command = "/timelessforever fallsaver",
+        tabKey = "fallsaver",
+    },
+    -- Radial Wheels & Actions
+    {
+        id = "TimelessForever_Buffs",
+        title = "Buffs (Radial Buff Wheel)",
+        category = "Radial Wheels & Actions",
+        icon = "Interface\\Icons\\Spell_Holy_MagicalSentry",
+        desc = "Radial buff wheel auto-populating class buffs, auras, seals, weapon imbues, duration tracking, and ScrollsPicker integration.",
+        command = "/timelessforever buffs",
+        tabKey = "buffs",
     },
     {
         id = "TimelessForever_Emotes",
         title = "Emotes (Radial Emote Wheel)",
+        category = "Radial Wheels & Actions",
         icon = "Interface\\Icons\\Spell_Shadow_Charm",
-        desc = "Radial emote wheel with keybind support, body poses (Sit, Lie Down, Sleep, Stand, Kneel), greetings, dances, and customizable Favorites slices.",
+        desc = "Radial emote wheel with keybind support, body poses (Sit, Lie Down, Sleep, Stand, Kneel), greetings, dances, and Favorites slices.",
         command = "/timelessforever emotes",
+        tabKey = "emotes",
+    },
+    -- Optimization & Performance
+    {
+        id = "TimelessForever_Tweaks",
+        title = "Tweaks & Graphics",
+        category = "Optimization & Performance",
+        icon = "Interface\\Icons\\INV_Misc_Gear_01",
+        desc = "Graphics engine and CVars optimizer, 2.6x max camera distance, nameplate distance slider, and performance presets.",
+        command = "/timelessforever tweaks",
+        tabKey = "tweaks",
     },
     {
-        id = "TimelessForever_Buffs",
-        title = "Buffs (Radial Buff Wheel)",
-        icon = "Interface\\Icons\\Spell_Holy_MagicalSentry",
-        desc = "Radial buff wheel auto-populating all class buffs, self-buffs, weapon imbues, and auras with active duration countdowns and 1-click casting.",
-        command = "/timelessforever buffs",
+        id = "ShiftBuyMax",
+        title = "ShiftBuyMax (Vendor Helper)",
+        category = "Optimization & Performance",
+        icon = "Interface\\Icons\\INV_Misc_Coin_02",
+        desc = "Shift-click any vendor item to instantly purchase a full stack or max affordable quantity.",
+        command = "/shiftbuymax",
     },
     {
-        id = "ScrollsPicker",
-        title = "ScrollsPicker (Stat Scrolls Tracker)",
-        icon = "Interface\\Icons\\INV_Scroll_02",
-        desc = "Scans bags for all stat scrolls (Agility, Strength, Stamina, Intellect, Spirit, Protection I–IV) with live counts, missing indicators, auto-popup, and 1-click use.",
-        command = "/sp",
+        id = "!StartupClean",
+        title = "!StartupClean (Chat Cleaner)",
+        category = "Optimization & Performance",
+        icon = "Interface\\Icons\\Spell_ChargePositive",
+        desc = "Cleans noisy addon startup announcements and routes them to a dedicated 'ADDON Startup' chat tab.",
+        command = "/startupclean",
+    },
+    {
+        id = "TimelessForever_AITranslate",
+        title = "AI Translate",
+        category = "Optimization & Performance",
+        icon = "Interface\\Icons\\Spell_Holy_BorrowedTime",
+        desc = "Real-time in-game chat translation for party, raid, whisper, and world chat with learning dictionary support.",
+        command = "/timelessforever translate",
     },
 }
 
 local function GetAddOnMetaHelper(name, field)
+    if name == "TimelessForever_Bar" or name == "TimelessForever_FallSaver" then
+        name = "TimelessForever"
+    end
     if C_AddOns and C_AddOns.GetAddOnMetadata then
         local val = C_AddOns.GetAddOnMetadata(name, field)
         if val then return val end
@@ -1211,6 +1329,11 @@ local function GetAddOnMetaHelper(name, field)
 end
 
 local function CheckAddOnLoadedHelper(name)
+    if name == "TimelessForever_Bar" then
+        return _G.TimelessForever_ButtonBar ~= nil
+    elseif name == "TimelessForever_FallSaver" then
+        return true
+    end
     if C_AddOns and C_AddOns.IsAddOnLoaded then
         return C_AddOns.IsAddOnLoaded(name)
     elseif _G.IsAddOnLoaded then
@@ -1219,127 +1342,316 @@ local function CheckAddOnLoadedHelper(name)
     return false
 end
 
+local function GetModuleCounts()
+    local active = 0
+    local total = #SUITE_MODULES
+    for _, mod in ipairs(SUITE_MODULES) do
+        if CheckAddOnLoadedHelper(mod.id) then
+            active = active + 1
+        end
+    end
+    return active, total
+end
+
+local CATEGORY_LIST = {
+    { key = "Core & Utilities", color = "00e5ff" },
+    { key = "Interface & Frame Movement", color = "ffcc00" },
+    { key = "Immersion & Atmosphere", color = "ffaa00" },
+    { key = "Radial Wheels & Actions", color = "d980fa" },
+    { key = "Optimization & Performance", color = "00ff88" },
+}
+
 local function BuildDynamicModuleStatusText()
     local lines = {}
-    table.insert(lines, "|cff00ccffCurrent Active Modules & Version Status:|r\n")
-    for _, mod in ipairs(SUITE_MODULES) do
-        local loaded = CheckAddOnLoadedHelper(mod.id)
-        local ver = GetAddOnMetaHelper(mod.id, "Version") or "1.0.0"
-        local statusStr = loaded and "|cff00ff00[Loaded & Active]|r" or "|cff888888[Not Loaded / Disabled]|r"
-        local iconStr = mod.icon and ("|T" .. mod.icon .. ":16:16:0:0|t ") or ""
-        table.insert(lines, iconStr .. "|cffffd100" .. mod.title .. "|r  v" .. ver .. "  " .. statusStr)
-        table.insert(lines, "  |cffaaaaaa" .. mod.desc .. "|r (Command: |cffffd100" .. mod.command .. "|r)\n")
+    local activeCount, totalCount = GetModuleCounts()
+    table.insert(lines, "|cff00ccffModule Directory Status:|r  |cff00ff00" .. activeCount .. " Active|r  |cff888888/|r  |cffffd100" .. totalCount .. " Total Modules Installed|r\n")
+
+    for _, cat in ipairs(CATEGORY_LIST) do
+        local catModules = {}
+        for _, mod in ipairs(SUITE_MODULES) do
+            if mod.category == cat.key then
+                table.insert(catModules, mod)
+            end
+        end
+
+        if #catModules > 0 then
+            table.insert(lines, "|cff" .. cat.color .. "━━━ " .. cat.key .. " ━━━|r")
+            for _, mod in ipairs(catModules) do
+                local loaded = CheckAddOnLoadedHelper(mod.id)
+                local ver = GetAddOnMetaHelper(mod.id, "Version") or "1.0.0"
+                local statusTag = loaded and "|cff00ff00[ACTIVE]|r" or "|cff888888[NOT LOADED]|r"
+                local iconStr = mod.icon and ("|T" .. mod.icon .. ":14:14:0:0|t ") or ""
+                table.insert(lines, iconStr .. "|cffffd100" .. mod.title .. "|r  |cff888888v" .. ver .. "|r  " .. statusTag .. "  |cff888888(Cmd: |cffffd100" .. mod.command .. "|cff888888)|r")
+                table.insert(lines, "    |cffcccccc" .. mod.desc .. "|r")
+            end
+            table.insert(lines, "")
+        end
     end
     return table.concat(lines, "\n")
 end
 
-local CHANGELOG_LATEST = [[=== TimelessForever Suite v1.3.0 Release Notes ===
+local CHANGELOG_TODAY = [[
+|cff00e5ff⚡ Unified Timeless Button Bar (TimelessForever_Bar)|r
+  • |cff00ff00[NEW]|r Created a unified, floating action bar grouping your most-used utility buttons: Nightlight, Disenchant, and Fishing into one movable bar!
+  • |cff00ff00[CLEAN]|r Renamed buttons to clean, consistent labels: "Nightlight", "Disenchant", and "Fishing".
+  • |cff00ff00[CUSTOM]|r Shift+Drag to move anywhere, auto-save position, toggle Horizontal / Vertical layout, and lock bar position.
+  • |cff00ff00[COMMANDS]|r Type |cffffd100/tfbar|r to toggle visibility, or |cffffd100/tfbar reset|r to center. Dedicated Button Bar settings tab added.
 
-[NEW MODULE] TimelessForever_nightlight
-- Added toggleable "Light in the Dark" around mouse cursor.
-- Atmospheric darkness hole cutout with realistic optical falloff.
-- Smooth radial warm white/tinted glow and bright lantern core.
-- Procedural torch flicker animation.
-- 8 atmospheric color presets: Warm Torchlight (Amber), Cozy Candlelight (Gold), Campfire Ember (Orange), Elune Moonlight (Silver Blue), Holy Radiance (Warm White), Arcane Lantern (Violet), Fel Torch (Emerald), Pure Daylight (White), and Custom Color Picker.
-- Draggable floating quick-toggle lantern icon with mousewheel resize.
-- Slash command: /nightlight (also /nl, /torch, /light).
+|cff00e5ff📜 Stat Scrolls Bag Scanner (ScrollsPicker & Radial Buff Wheel)|r
+  • |cff00ff00[NEW]|r Added ScrollsPicker: scans bags for all classic Stat Scrolls (Agility, Strength, Stamina, Intellect, Spirit, and Protection Ranks I–IV).
+  • |cff00ff00[SMART UI]|r Live bag counts, missing rank detection, and 1-click scroll application directly from the window without searching bags.
+  • |cff00ff00[AUTO-POPUP]|r Auto-detects missing or expiring scroll buffs and pops up the tracker; automatically hides once all buffs are active.
+  • |cff00ff00[SUITE TAB]|r Full settings integrated directly into the TimelessForever Buffs tab with missing-rank filters and scale slider.
 
-[OVERHAUL] TimelessForever_Fishing
-- Smart automatic fishing rod detection & automatic weapon swap back to combat gear.
-- Click-anywhere to reel in bobber (similar to Retail mechanics).
-- Double-click right-cast helper and lure audio reminders.
-- Floating quick toggle button and suite hub integration.
+|cff00e5ff📦 TimelessForever_Move — MacroAssistForever Integration|r
+  • |cff00ff00[NEW]|r Added full movement, scale adjustment, and position persistence for the MacroAssistForever window.
+  • |cff00ff00[HEADERS]|r Dynamic title and header grab targets supporting both capitalized and lowercase titlebar elements.
+  • |cff00ff00[SHORTCUTS]|r Added |cffffd100/timelessmove macro|r (toggle) and |cffffd100/timelessmove macro reset|r (center).
+  • |cff00ff00[RELIABLE]|r Zero-taint event hooking for ShowMacroFrame and SlashCmdList preventing Lua startup errors.
 
-[IMPROVED] TimelessForever_Minimap & MinimapBag
-- Refined square minimap border alignment and clean flat look.
-- Live player & cursor coordinates display.
-- Enhanced Addon Tray (Minimap Bag) with square and circle orbit docking and expandable shelf.
-
-[IMPROVED] TimelessForever Core Hub & Settings
-- Added brand-new "About & Updates" tab with live module version detection.
-- In-game action bar macro manager with custom icon dropdown.
-- Quick right-click minimap context menu for instant module access.
-
-[UPDATED] TimelessForever_AITranslate
-- Compatible with companion AI server v1.2.0.
-- Enhanced whisper and party channel translation accuracy.
-
-[OPTIMIZED] TimelessForever_Tweaks, Move & Heal
-- Max camera distance slider up to 2.6x.
-- Nameplate visibility range slider.
-- Zero-taint Blizzard frame moving & scaling.
-- Low-latency mouseover heal frames with priority debuff display.
+|cff00e5ff💎 Disenchant & Nightlight Polish|r
+  • |cff00ff00[DISENCHANT]|r Instant 1-click disenchanting from bags without equipping gear, auto-loot, and mailbox mode.
+  • |cff00ff00[NIGHTLIGHT]|r Fixed syntax issue in trainer tier progression; seamless integration with the Unified Button Bar.
+  • |cff00ff00[ABOUT TAB]|r Completely redesigned About & Updates tab into clean inline cards, categorized directory, and quick navigation.
 ]]
 
-local CHANGELOG_FULL = [[=== Complete TimelessForever Suite Changelog ===
+local CHANGELOG_PREVIOUS = [[
+|cffffd100Version 1.3.0 (October 2026):|r
+  • [NEW] TimelessForever_nightlight: Mouse cursor lantern & flashlight with darkness fog cutout, radial glow, torch flicker, and 8 color presets.
+  • [NEW] In-Game About & Updates tab with real-time module status inspection.
+  • [UPDATE] TimelessForever_Fishing: Added auto rod detection, auto-swap back to combat weapons, and click-anywhere reel-in.
+  • [UPDATE] TimelessForever_Minimap: Refined square borders and live coordinate display.
+  • [UPDATE] TimelessForever_MinimapBag: Enhanced button collector and docking shelf.
+  • [UPDATE] TimelessForever_Tweaks: 2.6x max camera distance and CVar optimizations.
 
-Version 1.3.0 (October 2026):
-- [NEW] TimelessForever_nightlight: Mouse cursor lantern & flashlight with darkness fog cutout, radial glow, torch flicker, and 8 color presets.
-- [NEW] In-Game About & Updates tab with real-time module status inspection.
-- [UPDATE] TimelessForever_Fishing: Added auto rod detection, auto-swap back to combat weapons, and click-anywhere reel-in.
-- [UPDATE] TimelessForever_Minimap: Refined square borders and live coordinate display.
-- [UPDATE] TimelessForever_MinimapBag: Enhanced button collector and docking shelf.
-- [UPDATE] TimelessForever_Tweaks: 2.6x max camera distance and CVar optimizations.
+|cffffd100Version 1.2.0:|r
+  • [NEW] TimelessForever_AITranslate: Companion dictionary learning engine protocol.
+  • [UPDATE] TimelessForever_Heal: Improved debuff highlight priority and mouseover responsiveness.
+  • [UPDATE] TimelessForever_Move: Enhanced frame anchoring and persistence.
 
-Version 1.2.0:
-- [NEW] TimelessForever_AITranslate: Companion dictionary learning engine protocol.
-- [UPDATE] TimelessForever_Heal: Improved debuff highlight priority and mouseover responsiveness.
-- [UPDATE] TimelessForever_Move: Enhanced frame anchoring and persistence.
+|cffffd100Version 1.1.0:|r
+  • [NEW] TimelessForever_MinimapBag: Addon Tray button collector.
+  • [NEW] Square minimap live coordinates and zone banner.
+  • [NEW] Action-bar macro builder with custom icon selection.
 
-Version 1.1.0:
-- [NEW] TimelessForever_MinimapBag: Addon Tray button collector.
-- [NEW] Square minimap live coordinates and zone banner.
-- [NEW] Action-bar macro builder with custom icon selection.
-
-Version 1.0.0:
-- Initial release of TimelessForever suite: Core Hub, Move, Heal, Tweaks, and Fishing.
+|cffffd100Version 1.0.0:|r
+  • Initial release of TimelessForever suite: Core Hub, Move, Heal, Tweaks, and Fishing.
 ]]
 
 local function RegisterAboutTab()
     local aboutArgs = {
         header = {
-            name = ICON .. BRAND_TITLE .. " Suite - About & Updates",
+            name = ICON .. BRAND_TITLE .. " Suite — About & Status",
             type = "header",
             order = 1,
         },
-        authorDesc = {
-            name = "|cffffd100Author:|r TimelessForever Dev Chelliebellie / GameHiveHQ\n" ..
-                   "|cffffd100Suite Version:|r 1.3.0  |cff888888(Universal Retail & Classic Release)|r\n" ..
-                   "|cffffd100Category:|r Quality-of-Life, Immersion, Automation & Performance\n\n" ..
-                   "TimelessForever is a modular suite providing cursor lighting immersion, fishing automation, UI customizability, square minimap & button tray, AI translation, and graphics optimization.\n",
-            type = "description",
+        overviewGroup = {
+            name = "Suite Overview",
+            type = "group",
+            inline = true,
             order = 2,
-            fontSize = "medium",
+            args = {
+                info = {
+                    name = function()
+                        local active, total = GetModuleCounts()
+                        return "|cffffd100Suite Version:|r |cff00ff001.4.0|r  |cff888888(Universal Release — Retail, Classic & Forever)|r\n" ..
+                               "|cffffd100Author:|r TimelessForever Dev Chelliebellie / GameHiveHQ\n" ..
+                               "|cffffd100Live Status:|r |cff00ff00" .. active .. "|r of |cffffd100" .. total .. "|r modules currently active and running\n" ..
+                               "|cffffd100Category:|r Quality-of-Life, Immersion, Automation & Performance\n\n" ..
+                               "TimelessForever is an all-in-one modular suite delivering immersive cursor lighting, automated fishing, fast disenchanting, stat scroll tracking, frame movement, custom minimap & button tray, radial wheels, and graphics optimization.\n"
+                    end,
+                    type = "description",
+                    order = 1,
+                    fontSize = "medium",
+                },
+                buttonBarBtn = {
+                    name = "Button Bar Settings",
+                    desc = "Jump directly to the Unified Button Bar settings tab.",
+                    type = "execute",
+                    order = 10,
+                    width = "normal",
+                    func = function() TimelessForeverSuite:OpenSettings("bar") end,
+                },
+                buffsBtn = {
+                    name = "Buffs & Scrolls",
+                    desc = "Jump directly to the Buffs and ScrollsPicker settings tab.",
+                    type = "execute",
+                    order = 11,
+                    width = "normal",
+                    func = function() TimelessForeverSuite:OpenSettings("buffs") end,
+                },
+                moveBtn = {
+                    name = "Frame Unlocker",
+                    desc = "Jump directly to the Frame Unlocker (Move) settings tab.",
+                    type = "execute",
+                    order = 12,
+                    width = "normal",
+                    func = function() TimelessForeverSuite:OpenSettings("move") end,
+                },
+                macroBtn = {
+                    name = "Create / Update Macro",
+                    desc = "Create or update the /timelessforever action bar macro.",
+                    type = "execute",
+                    order = 13,
+                    width = "normal",
+                    func = function() TimelessForeverSuite:CreateMacro(true) end,
+                },
+                resetMinimapBtn = {
+                    name = "Reset Minimap Icon",
+                    desc = "Reset the TimelessForever minimap launcher icon position to default.",
+                    type = "execute",
+                    order = 14,
+                    width = "normal",
+                    func = function() TimelessForeverSuite:ResetMinimapPosition() end,
+                },
+                reloadBtn = {
+                    name = "Reload UI",
+                    desc = "Reload the World of Warcraft user interface.",
+                    type = "execute",
+                    order = 15,
+                    width = "normal",
+                    confirm = true,
+                    confirmText = "Are you sure you want to reload the UI?",
+                    func = function() ReloadUI() end,
+                },
+            },
         },
-        moduleHeader = {
-            name = "Installed Modules & Live Version Status",
-            type = "header",
-            order = 10,
+        todayGroup = {
+            name = "What's New in v1.4.0 (Today's Updates)",
+            type = "group",
+            inline = true,
+            order = 3,
+            args = {
+                notes = {
+                    name = CHANGELOG_TODAY,
+                    type = "description",
+                    order = 1,
+                    fontSize = "medium",
+                },
+            },
         },
-        moduleDesc = {
-            name = BuildDynamicModuleStatusText,
-            type = "description",
-            order = 11,
+        quickNavGroup = {
+            name = "Quick Module Navigation",
+            type = "group",
+            inline = true,
+            order = 4,
+            args = {
+                navDesc = {
+                    name = "Click any module below to jump directly to its dedicated settings tab:\n",
+                    type = "description",
+                    order = 1,
+                },
+                btnGeneral = {
+                    name = "General Hub",
+                    type = "execute",
+                    order = 2,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("general") end,
+                },
+                btnBar = {
+                    name = "Button Bar",
+                    type = "execute",
+                    order = 3,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("bar") end,
+                },
+                btnMove = {
+                    name = "Move",
+                    type = "execute",
+                    order = 4,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("move") end,
+                },
+                btnBuffs = {
+                    name = "Buffs & Scrolls",
+                    type = "execute",
+                    order = 5,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("buffs") end,
+                },
+                btnFishing = {
+                    name = "Fishing",
+                    type = "execute",
+                    order = 6,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("fishing") end,
+                },
+                btnNightlight = {
+                    name = "Nightlight",
+                    type = "execute",
+                    order = 7,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("nightlight") end,
+                },
+                btnMinimap = {
+                    name = "Minimap",
+                    type = "execute",
+                    order = 8,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("minimap") end,
+                },
+                btnBag = {
+                    name = "Addon Tray",
+                    type = "execute",
+                    order = 9,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("bag") end,
+                },
+                btnTweaks = {
+                    name = "Tweaks",
+                    type = "execute",
+                    order = 10,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("tweaks") end,
+                },
+                btnHeal = {
+                    name = "Heal",
+                    type = "execute",
+                    order = 11,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("heal") end,
+                },
+                btnEmotes = {
+                    name = "Emotes",
+                    type = "execute",
+                    order = 12,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("emotes") end,
+                },
+                btnFallSaver = {
+                    name = "Fall Saver",
+                    type = "execute",
+                    order = 13,
+                    width = "half",
+                    func = function() TimelessForeverSuite:OpenSettings("fallsaver") end,
+                },
+            },
         },
-        whatsNewHeader = {
-            name = "What's New in v1.3.0",
-            type = "header",
-            order = 20,
+        modulesGroup = {
+            name = "Installed Modules Directory & Live Status",
+            type = "group",
+            inline = true,
+            order = 5,
+            args = {
+                status = {
+                    name = BuildDynamicModuleStatusText,
+                    type = "description",
+                    order = 1,
+                },
+            },
         },
-        whatsNewDesc = {
-            name = CHANGELOG_LATEST,
-            type = "description",
-            order = 21,
-        },
-        fullChangelogHeader = {
-            name = "Version History",
-            type = "header",
-            order = 30,
-        },
-        fullChangelogDesc = {
-            name = CHANGELOG_FULL,
-            type = "description",
-            order = 31,
+        historyGroup = {
+            name = "Version History & Archive",
+            type = "group",
+            inline = true,
+            order = 6,
+            args = {
+                history = {
+                    name = CHANGELOG_PREVIOUS,
+                    type = "description",
+                    order = 1,
+                },
+            },
         },
     }
     TimelessForeverSuite:RegisterModuleTab("about", "About", 100, aboutArgs)

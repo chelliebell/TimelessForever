@@ -155,6 +155,7 @@ local allKnownFrames = {
     -- Blizzard Addons / On-Demand Frames
     "InspectFrame",
     "MacroFrame",
+    "MacroAssistForeverFrame",
     "KeyBindingFrame",
     "AuctionFrame",
     "AuctionHouseFrame",
@@ -540,7 +541,9 @@ local function EnableFrameMovement(frame)
         frame.TitleContainer,
         frame.TitleBg,
         frame.Header,
+        frame.header,
         frame.Title,
+        frame.title,
         frame.NineSlice,
         frame.NineSlice and frame.NineSlice.TopEdge,
         frame.BorderFrame,
@@ -599,6 +602,10 @@ local function ScanAndEnableFrames()
     if WorldMapFrame then
         SetupWorldMapMovement()
     end
+    if CheckMacroAssist then
+        CheckMacroAssist()
+        HookMacroAssistSlash()
+    end
     for _, frameName in ipairs(allKnownFrames) do
         local frame = _G[frameName]
         if frame and not frame._timelessMoveEnabled then
@@ -633,6 +640,32 @@ if SetUIPanel then
         end
     end)
 end
+
+-- Dynamic hook & support for MacroAssistForever
+local function CheckMacroAssist()
+    local maf = _G["MacroAssistForeverFrame"]
+    if maf and not maf._timelessMoveEnabled then
+        EnableFrameMovement(maf)
+    end
+end
+
+if ShowMacroFrame then
+    hooksecurefunc("ShowMacroFrame", function()
+        C_Timer.After(0.01, CheckMacroAssist)
+    end)
+end
+
+local macroAssistSlashHooked = false
+local function HookMacroAssistSlash()
+    if macroAssistSlashHooked then return end
+    if SlashCmdList and SlashCmdList["MACROASSISTFOREVER"] then
+        hooksecurefunc(SlashCmdList, "MACROASSISTFOREVER", function()
+            C_Timer.After(0.01, CheckMacroAssist)
+        end)
+        macroAssistSlashHooked = true
+    end
+end
+HookMacroAssistSlash()
 
 -- Helper: Toggle a setting directly via slash command
 local function ToggleSetting(key, displayName)
@@ -1014,6 +1047,11 @@ TimelessMove:SetScript("OnEvent", function(self, event, arg1)
         end
         ScanAndEnableFrames()
         RegisterBlizzOptions()
+        if arg1 == "MacroAssistForever" or arg1 == "Blizzard_MacroUI" then
+            C_Timer.After(0.05, function()
+                if CheckMacroAssist then CheckMacroAssist() end
+            end)
+        end
     elseif event == "PLAYER_ENTERING_WORLD" or event == "VARIABLES_LOADED" then
         InitDB()
         ScanAndEnableFrames()
@@ -1079,6 +1117,24 @@ SlashCmdList["TIMELESSFOREVERMOVE"] = function(msg)
             WorldMapFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
         end
         print(ICON .. "|cff00ccff[TimelessMove]|r World Map position reset to center.")
+    elseif cmd == "macro" or cmd == "macros" or cmd == "macroassist" then
+        local maf = _G["MacroAssistForeverFrame"]
+        if maf then
+            if maf:IsShown() then maf:Hide() else maf:Show() end
+        elseif ShowMacroFrame then
+            ShowMacroFrame()
+        end
+    elseif cmd == "macro reset" or cmd == "macros reset" or cmd == "macroassist reset" then
+        if TimelessMoveDB and TimelessMoveDB.positions then
+            TimelessMoveDB.positions["MacroAssistForeverFrame"] = nil
+            TimelessMoveDB.positions["MacroFrame"] = nil
+        end
+        local maf = _G["MacroAssistForeverFrame"]
+        if maf then
+            maf:ClearAllPoints()
+            maf:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+        end
+        print(ICON .. "|cff00ccff[TimelessMove]|r Macro Assist window position reset to center.")
     elseif cmd == "save" then
         ToggleSetting("savePositions", "Position Saving")
     elseif cmd == "scale" then

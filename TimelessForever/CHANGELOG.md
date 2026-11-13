@@ -1,5 +1,38 @@
 # Changelog — TimelessForever Suite
 
+## [v1.4.0] — 2026-11-13 (Utility Button Bar, ScrollsPicker & MacroAssist Update)
+
+### ⚡ Unified Timeless Button Bar (TimelessForever_Bar)
+- **Consolidated Action Bar**: Grouped Nightlight, Disenchant, and Fishing into a single sleek, floating action bar.
+- **Clean Button Renaming**: Simplified and standardized labels to "Nightlight", "Disenchant", and "Fishing".
+- **Customizable Layout**: Shift+Drag anywhere on screen, auto-saving position across sessions, toggle Horizontal/Vertical orientation, and frame locking.
+- **Dedicated Settings Tab**: Direct configuration inside the TimelessForever suite hub (`/tfbar` or `/timelessforever bar`).
+
+---
+
+### 📜 Stat Scrolls Bag Scanner (ScrollsPicker & Radial Buff Wheel)
+- **New Module**: Added `ScrollsPicker` scanning bags for Classic Stat Scrolls (Agility, Strength, Stamina, Intellect, Spirit, and Protection Ranks I–IV).
+- **Interactive UI**: Live bag count badges, missing rank detection, and 1-click scroll application directly from the window without searching bags.
+- **Smart Auto-Popup**: Automatically shows when stat scroll buffs expire or are missing; automatically hides once all active buffs are applied.
+- **Radial Buff Wheel Integration**: Full configuration controls integrated right into the Buffs tab (`/timelessforever buffs`) with scale slider and missing-rank filters.
+
+---
+
+### 📦 TimelessForever_Move (MacroAssistForever Integration)
+- **MacroAssist Support**: Added full movement, scale adjustment, and position persistence for `MacroAssistForeverFrame`.
+- **Flexible Drag Targets**: Added recognition for capitalized and lowercase headers and titlebars (`frame.header`, `frame.title`, `frame.Header`, `frame.Title`).
+- **Slash Shortcuts**: Added `/timelessmove macro` (toggle visibility) and `/timelessmove macro reset` (center position).
+- **Safe Event Hooking**: Protected hooking for `ShowMacroFrame` and `SlashCmdList["MACROASSISTFOREVER"]` preventing nil/function indexing Lua errors.
+
+---
+
+### 💎 Polish & Bug Fixes
+- **TimelessForever_Disenchant**: Instant 1-click bag disenchanting without equipping gear, auto-loot on disenchant, and mailbox mode support.
+- **TimelessForever_nightlight**: Fixed Lua syntax error at line 1163 (`'=' expected near ')'`) during trainer tier progression.
+- **About Tab Redesign**: Completely revamped the About & Updates tab into clean, structured inline cards, live module status directory, and 1-click navigation buttons.
+
+---
+
 ## [v1.0.0] — 2026-10-22 (Initial Release)
 
 Welcome to the initial launch of **TimelessForever** for **World of Warcraft: Forever**!  
