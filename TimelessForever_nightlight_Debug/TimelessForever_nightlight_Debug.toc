@@ -1,0 +1,11 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Nightlight Debug Admin
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## Dependencies: TimelessForever_nightlight
+## Category: GameHiveHQ
+## Group: TimelessForever
+## Notes: Standalone in-memory testing panel and class simulation preview for TimelessForever_nightlight.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+
+TimelessForever_nightlight_Debug.lua

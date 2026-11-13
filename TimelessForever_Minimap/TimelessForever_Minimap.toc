@@ -1,0 +1,19 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Minimap (Square)
+## Group: TimelessForever
+## Notes: Sleek Square Minimap with integrated TimelessForever Minimap Bag, custom borders, live coordinates, zone header, and suite controls.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## Category: GameHiveHQ
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## Dependencies: Blizzard_Minimap
+## OptionalDeps: TimelessForever, TimelessForever_MinimapBag
+## SavedVariables: TimelessForeverMinimapDB
+
+# Libraries
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+
+TimelessForever_Minimap.lua

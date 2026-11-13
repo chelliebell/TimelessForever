@@ -1,0 +1,14 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Fishing Tweeks
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## OptionalDeps: TimelessForever
+## Category: GameHiveHQ
+## Group: TimelessForever
+## Notes: Complete fishing suite. Automatic rod detection & weapon swap, click-anywhere to reel in like retail, double-click cast, and floating toggle icon.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## SavedVariablesPerCharacter: TimelessForever_FishingDB
+## SavedVariables: TimelessForever_ButtonBarDB
+
+TimelessForever_Bar.lua
+TimelessForever_Fishing.lua

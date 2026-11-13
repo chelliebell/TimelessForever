@@ -1,0 +1,21 @@
+## Interface: 160001, 16001, 160000, 11506, 11505, 11504, 11503, 11502, 11501, 11500
+## Title: |cff00ccffTimelessForever|r |cffffffffTweaks|r
+## OptionalDeps: TimelessForever
+## Category: GameHiveHQ
+## Group: TimelessForever
+## DefaultState: enabled
+## Notes: Comprehensive graphics engine, controls, combat, interface, and nameplate optimizer with sliders and one-click presets.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## IconTexture: Interface\AddOns\TimelessForever_Tweaks\Icons\gamehivehq
+## SavedVariables: TimelessForever_TweaksDB, TimelessForeverTweaksDB, TimelessTweaksDB, ForeverTweaksDB
+
+# Libraries
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+
+!StartupClean\!StartupClean.lua
+TimelessForever_Tweaks.lua
+ShiftBuyMax.lua

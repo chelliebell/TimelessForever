@@ -1,0 +1,22 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Map Bookmarks
+## OptionalDeps: TimelessForever
+## Notes: Right-click any location on the map to add bookmarks with custom icons, notes, waypoints, and minimap tracking. Compatible with all map addons (OpenMap, Leatrix Maps, Blizzard).
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## Category: GameHiveHQ
+## Group: TimelessForever
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## SavedVariables: TimelessForever_BookmarksDB
+## DefaultState: enabled
+
+Libs\LibStub.lua
+Libs\CallbackHandler-1.0.lua
+Libs\HereBeDragons-2.0.lua
+Libs\HereBeDragons-Pins-2.0.lua
+
+Icons.lua
+Core.lua
+Dialog.lua
+Manager.lua
+MapButton.lua

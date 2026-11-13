@@ -1,0 +1,13 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Barber_FIX
+## OptionalDeps: TimelessForever
+## Category: GameHiveHQ
+## Group: TimelessForever
+## Notes: Full Barber Shop fix, UI scaling, screen centering & camera rotation control.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+
+## SavedVariables: TimelessForever_BarberDB, TimelessBarberDB, ForeverBarberDB
+
+TimelessForever_Barber.lua

@@ -1,0 +1,9 @@
+## Interface: 160001, 16001, 160000, 11506, 11505, 11504, 11503, 11502, 11501, 11500, 40402, 40401, 40400, 30403, 30400, 20504, 11404, 11403, 11307, 110007, 110002, 110000, 100207, 90207
+## Title: |cff00ccff!|r|cffffffffStartupClean|r
+## Notes: Early startup chat cleaner and interceptor for World of Warcraft. Routes addon splash banners into the 'ADDON Startup' chat tab.
+## Author: Timeless Dev Chelliebellie
+## Version: 1.0.0
+## Category: GameHiveHQ
+## Group: Timeless
+
+!StartupClean.lua

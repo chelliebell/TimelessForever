@@ -1,0 +1,18 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Heal ME
+## OptionalDeps: TimelessForever
+## Notes: Modern & clean mouseover healing unit frames custom-crafted for World of Warcraft.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## Category: GameHiveHQ
+## Group: TimelessForever
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## SavedVariables: TimelessForever_HealDB, TimelessForeverHealDB, TimelessHealDB, ForeverHealDB
+
+# Libraries
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+
+TimelessForever_Heal.lua

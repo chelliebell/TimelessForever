@@ -1,0 +1,12 @@
+<Bindings>
+    <Binding name="BUFFWHEEL_OPEN" header="BUFFWHEEL" runOnUp="true" category="ADDONS">
+        if keystate == "down" then
+            BuffWheel_OnKeyDown()
+        else
+            BuffWheel_OnKeyUp()
+        end
+    </Binding>
+    <Binding name="BUFFWHEEL_SETTINGS" category="ADDONS">
+        BuffWheel_OpenSettings()
+    </Binding>
+</Bindings>

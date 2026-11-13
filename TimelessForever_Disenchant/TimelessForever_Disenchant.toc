@@ -1,0 +1,14 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Disenchant
+## OptionalDeps: TimelessForever
+## Notes: Right-click green, blue, and epic gear in bags to disenchant without equipping! Includes auto-loot and mailbox mode.
+## Author: TimelessForever / Samuel
+## Version: 1.0.0
+## Category: GameHiveHQ
+## Group: TimelessForever
+## DefaultState: enabled
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## SavedVariables: TimelessForever_DisenchantDB, TimelessForever_ButtonBarDB
+
+TimelessForever_Bar.lua
+TimelessForever_Disenchant.lua

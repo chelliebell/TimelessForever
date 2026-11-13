@@ -1,0 +1,16 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Emote Wheel
+## OptionalDeps: TimelessForever
+## Category: GameHiveHQ
+## Group: TimelessForever
+## Notes: Radial Emote Wheel for TimelessForever. Press or hold a keybind to perform Poses (Sit, Lie Down, Sleep, Stand, Kneel), Greetings, Dances, Voice Emotes, and Taunts.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## SavedVariables: TimelessForever_EmotesDB, EmoteWheelDB
+## DefaultState: enabled
+
+Data.lua
+Wheel.lua
+Settings.lua
+Core.lua

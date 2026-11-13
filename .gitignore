@@ -1,0 +1,28 @@
+# Ignore everything by default
+/*
+
+# Whitelist .gitignore and README
+!.gitignore
+!README.md
+
+# Whitelist only the specified TimelessForever addons
+!TimelessForever/
+!TimelessForever_Barber/
+!TimelessForever_Bookmarks/
+!TimelessForever_Buffs/
+!TimelessForever_Disenchant/
+!TimelessForever_Emotes/
+!TimelessForever_Fishing/
+!TimelessForever_Heal/
+!TimelessForever_Minimap/
+!TimelessForever_MinimapBag/
+!TimelessForever_Move/
+!TimelessForever_nightlight/
+!TimelessForever_nightlight_Debug/
+!TimelessForever_Tweaks/
+
+# Temporary / sensitive files inside allowed directories
+*.py[cod]
+__pycache__/
+*.bak
+wow_login_config.ini

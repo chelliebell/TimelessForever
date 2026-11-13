@@ -1,0 +1,12 @@
+<Bindings>
+    <Binding name="EMOTEWHEEL_OPEN" header="EMOTEWHEEL" runOnUp="true" category="ADDONS">
+        if keystate == "down" then
+            EmoteWheel_OnKeyDown()
+        else
+            EmoteWheel_OnKeyUp()
+        end
+    </Binding>
+    <Binding name="EMOTEWHEEL_SETTINGS" category="ADDONS">
+        EmoteWheel_OpenSettings()
+    </Binding>
+</Bindings>

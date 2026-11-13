@@ -1,0 +1,13 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Nightlight
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## OptionalDeps: TimelessForever
+## Category: GameHiveHQ
+## Group: TimelessForever
+## Notes: Night-only cursor torch for the TimelessForever suite. Earned in 4 tiers via class trainer and level progression. Features health dimming (0 at <=14% HP), aggro warning (vivid red), class behaviors (Warlock drain, Paladin flare, Mage spec, Hunter pet, Priest shield, Shaman totems), stealth auto-extinguish, and a realistic day/night darkness curve.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## SavedVariables: TimelessForever_NightlightDB, TimelessForever_ButtonBarDB
+
+TimelessForever_Bar.lua
+TimelessForever_nightlight.lua

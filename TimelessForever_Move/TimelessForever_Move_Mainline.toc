@@ -1,0 +1,17 @@
+## Interface: 120000, 120001, 120005, 120007, 120100, 120105, 16001
+## Title: |cff0cd29fTimelessForever|r Move Everything
+## OptionalDeps: TimelessForever
+## Category: GameHiveHQ
+## Group: TimelessForever
+## Notes: Original window & frame mover custom-crafted for World of Warcraft.
+## Author: TimelessForever Dev Chelliebellie
+## Version: 1.0.0
+## IconTexture: Interface\AddOns\TimelessForever\Icons\timelessforever
+## SavedVariables: TimelessForever_MoveDB, TimelessForeverMoveDB, TimelessMoveDB, ForeverMoveDB
+# Libraries
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+
+TimelessForever_Move.lua
